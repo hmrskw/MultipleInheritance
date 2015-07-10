@@ -30,9 +30,7 @@ class Player:public Actor{
 private:
 public:
 	virtual ~Player(){};
-	void getInput(){
-		
-	};
+	virtual void getInput(){};
 };
 
 class P1 :public Player{
@@ -77,20 +75,23 @@ public:
 int main() {
 	App::get();
 
-	P1 p1;
-	P2 p2;
+	Player* actors[2];		//子供クラスは親クラスの型にキャストできる
+							//「*」これ大事
+	actors[0] = new P1();
+	actors[1] = new P2();
 
 	while (App::get().isOpen()) {
 		App::get().begin();
-    
-		p1.move();
-		p1.getInput();
-		p1.draw();
 
-		p2.move();
-		p2.getInput();
-		p2.draw();
+		for (int i = 0; i < 2; i++){
+			actors[i]->move();
+			actors[i]->getInput();
+			actors[i]->draw();
+		}
 
 		App::get().end();
+	}
+	for (int i = 0; i < 2; i++){
+		delete actors[i];
 	}
 }
